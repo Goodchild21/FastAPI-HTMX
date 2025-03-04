@@ -66,21 +66,6 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
 
 
 class UserProfile(BaseSQLModel):
-    """
-    Model to hold the profile of a user
-
-    Parameters:
-        first_name (str): The first name of the user.
-        last_name (str): The last name of the user.
-        gender (str, optional): The gender of the user.
-        date_of_birth (datetime, optional): The date of birth of the user.
-        city (str, optional): The city of the user.
-        country (str, optional): The country of the user.
-        address (str, optional): The address of the user.
-        phone (str, optional): The phone number of the user.
-        company (str, optional): The company of the user.
-    """
-
     __tablename__ = "user_profiles"
     first_name: Mapped[str] = mapped_column(String(length=120), index=True)
     last_name: Mapped[str] = mapped_column(String(length=120), index=True)

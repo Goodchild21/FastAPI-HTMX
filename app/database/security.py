@@ -55,15 +55,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     # Decoding the JWT token using the inheritance of the BaseUserManager
     async def on_decode_jwt(self, jwt_token: str):
-        """
-        Decodes a JWT token using the verification token secret and audience.
 
-        Args:
-            jwt_token (str): The JWT token to decode.
-
-        Returns:
-            dict: The decoded JWT token.
-        """
         return decode_jwt(
             jwt_token,
             self.verification_token_secret,
@@ -92,17 +84,7 @@ auth_backend = AuthenticationBackend(
 async def verify_jwt(
     jwt_token: str, user_db: SQLAlchemyUserDatabase = Depends(get_user_db)
 ) -> bool:
-    """
-    Verifies the given JWT token by decoding it and checking its validity.
 
-    Args:
-        jwt_token (str): The JWT token to be verified.
-        user_db (SQLAlchemyUserDatabase, optional): The user database to use for verification.
-                                                    Defaults to Depends(get_user_db).
-
-    Returns:
-        bool: True if the token is valid, False otherwise.
-    """
     isTokenValid: bool = False
     payload = None
     try:

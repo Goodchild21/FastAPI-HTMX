@@ -1,285 +1,81 @@
-{% extends "base/auth_base.html" %} {% block title %}Dashboard | FastAPI HTMX{%
-endblock %} {% block content %}
+{% extends "base/auth_base.html" %}
+{% block title %} Доска заданий | FastAPI HTMX {% endblock %}
 
+{% block content %}
 <div id="dashboard-body" class="p-4 mt-4 sm:ml-64">
-  <div
-    class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"
-  >
-    <div class="grid grid-cols-3 gap-4 mb-4">
-      <div
-        class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
-      >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
-      </div>
-      <div
-        class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
-      >
-        <!-- <div id="dashboard-main" hx-push-url="true"> -->
-        <h1 class="text-center">{{ message }}</h1>
-        <h4 id="result" class="text-center"></h4>
-      </div>
-      <div
-        class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
-      >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
-      </div>
-    </div>
+  <div class="p-4 border-2 border-gray-200 border rounded-lg dark:border-gray-700">
     <div
-      class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800"
+      x-cloak
+      x-data="{ isLoading: false,
+                fileLoaded: false,
+                fileName: '' ,
+                isUpdated:false,
+                isAdded:false,
+                isDeleted:false,
+                message:''}"
+      id="group-page"
     >
-      <div
-        class="flex items-center justify-center rounded bg-gray-50 h-auto dark:bg-gray-800 p-4"
-      ></div>
 
-      <p class="text-2xl text-gray-400 dark:text-gray-500">
-        <svg
-          class="w-3.5 h-3.5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 18 18"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 1v16M1 9h16"
-          />
-        </svg>
-      </p>
-    </div>
-    <div
-      id="upload-result"
-      class="flex items-center justify-center rounded bg-gray-50 h-auto dark:bg-gray-800 p-4"
-    >
-      <!-- Upload result will be displayed here -->
-    </div>
-    <div class="grid grid-cols-2 gap-4 mb-4">
+      {%if error_messages%}
       <div
-        class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
+        id="error-message"
+        class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+        role="alert"
       >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
+        {% for error_message in error_messages %}
+        <span class="font-medium">{{ error_message }}</span>
+        {%endfor%}
       </div>
-      <div
-        class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
-      >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
-      </div>
-      <div
-        class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
-      >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
-      </div>
-      <div
-        class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
-      >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
-      </div>
-    </div>
-    <div
-      class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800"
-    >
-      <p class="text-2xl text-gray-400 dark:text-gray-500">
-        <svg
-          class="w-3.5 h-3.5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 18 18"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 1v16M1 9h16"
-          />
-        </svg>
-      </p>
-    </div>
-    <div class="grid grid-cols-2 gap-4">
-      <div
-        class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
-      >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
-      </div>
-      <div
-        class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
-      >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
-      </div>
-      <div
-        class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
-      >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
-      </div>
-      <div
-        class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
-      >
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
-        </p>
-      </div>
-    </div>
+      {% else %}
+
+      <!-- Groups Allocation -->
+      <!-- <div class="mt-8"> -->
+        <div>
+          <h1 class="text-center font-bold">Распределение заданий</h1>
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table
+              class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+            >
+              <thead
+                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+              >
+                <tr>
+                  <th scope="col" class="px-6 py-3">Группа</th>
+                  <th scope="col" class="px-6 py-3">Задание</th>
+                  <th scope="col" class="px-6 py-3">Участники</th>
+                </tr>
+              </thead>
+              {% for group in groups %}
+              <tbody hx-target="closest tr" hx-swap="outerHTML">
+                <tr
+                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                  <td
+                    scope="row"
+                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {{ group.group_name }}
+                  </td>
+                  <td class="px-6 py-4">{{ group.group_desc}}</td>
+                  <td class="px-6 py-4">
+                    {% if group.users %} {% for user in group.users %}
+                    <div
+                      id="user-profile"
+                      hx-get="{{ url_for('get_user_profile', user_id=user.id) }}"
+                      hx-swap="innerHTML"
+                      hx-target="this"
+                      hx-trigger="revealed"
+                    ></div>
+                    {% endfor %} {% else %} No users allocated {% endif %}
+                  </td>
+                </tr>
+              </tbody>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+        {% endif %}
+      <!-- </div> -->
   </div>
 </div>
 {% endblock %}

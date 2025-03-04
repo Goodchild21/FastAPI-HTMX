@@ -32,6 +32,5 @@ class UserGroupLink(BaseSQLModel):
     __tablename__ = "group_users"
     group_id: Mapped[UUID] = mapped_column(ForeignKey("group.id"), default=None)
     user_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"), default=None)
-
-    # group: Mapped[Group] = relationship(Group, back_populates="group_users")
-    # user: Mapped["User"] = relationship("User", back_populates="group_users")
+    # --------------------------------------------------------------------------
+    user_status_in_group: Mapped[str | None] = mapped_column(String(length=30), nullable=True)

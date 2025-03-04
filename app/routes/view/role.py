@@ -173,7 +173,7 @@ async def get_role_by_id(
     role_id: uuid.UUID,
     db: CurrentAsyncSession,
     current_user: UserModelDB = Depends(current_active_user),
-    csrf_protect: CsrfProtect = Depends(),
+    # csrf_protect: CsrfProtect = Depends(),
 ):
     try:
         # checking the current user as super user

@@ -1,0 +1,42 @@
+services:
+  web:
+#    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+
+
+#version: "3.8"
+
+#networks:
+#  traefik-public:
+#    external: true
+
+#services:
+#  todo_app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    command: /start
+#    image: renceinbox/fastapi-todo:main
+#    networks:
+#      - traefik-public
+#    deploy:
+#      labels:
+#        - traefik.enable=true
+#        - traefik.docker.network=traefik-public
+#        - traefik.constraint-label=traefik-public
+#        - traefik.http.routers.fastapi-todo-http.rule=Host(`todo-fastapi.renceinbox.com`)
+#        - traefik.http.routers.fastapi-todo-http.entrypoints=http
+#        - traefik.http.routers.fastapi-todo-http.middlewares=https-redirect
+#        - traefik.http.routers.fastapi-todo-https.rule=Host(`todo-fastapi.renceinbox.com`)
+#        - traefik.http.routers.fastapi-todo-https.entrypoints=https
+#        - traefik.http.routers.fastapi-todo-https.tls=true
+#        - traefik.http.routers.fastapi-todo-https.tls.certresolver=le
+#        - traefik.http.services.fastapi-todo.loadbalancer.server.port=8001

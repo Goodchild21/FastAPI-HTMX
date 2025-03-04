@@ -42,26 +42,13 @@ async def get_users(
     current_user: UserModelDB = Depends(current_active_user),
     csrf_protect: CsrfProtect = Depends(),
 ):
-    """
-    Route handler function to get the create user page.
-
-    Args:
-        request (Request): The request object.
-        current_user (UserModelDB): The current user object obtained from the current_active_user dependency.
-
-    Returns:
-        TemplateResponse: The HTML response containing the "partials/add_user.html" template.
-
-    Raises:
-        HTTPException: If the current user is not a superuser, with a 403 Forbidden status code.
-    """
     try:
         if not current_user.is_superuser:
             raise HTTPException(
-                status_code=403, detail="Not authorized to view this page"
+                status_code=403, detail="Вы не авторизованы для этой страницы"
             )
-        # Access the cookies using the Request object
 
+        # Access the cookies using the Request object
         token = request.cookies.get("fastapiusersauth")
         users = await user_crud.read_all(db, skip, limit, join_relationships=True)
 
@@ -101,23 +88,10 @@ async def get_create_users(
     request: Request,
     current_user: UserModelDB = Depends(current_active_user),
 ):
-    """
-    Route handler function to render the template for creating a new user.
 
-    Args:
-        request (Request): The incoming HTTP request object.
-        current_user (UserModelDB): The currently authenticated user object, obtained from the current_active_user dependency.
-
-    Returns:
-        TemplateResponse: The rendered HTML template for creating a new user.
-
-    Raises:
-        HTTPException: If the current user is not a superuser, with a 403 Forbidden status code and a detail message.
-    """
-    # checking the current user as super user
     try:
         if not current_user.is_superuser:
-            raise HTTPException(status_code=403, detail="Not authorized to add users")
+            raise HTTPException(status_code=403, detail="Отсутствует авторизация для добавления данных!")
         # Redirecting to the add role page upon successful role creation
         return templates.TemplateResponse(
             "partials/user/add_user.html",
@@ -142,7 +116,7 @@ async def get_user_by_id(
         # checking the current user as super user
         if not current_user.is_superuser:
             raise HTTPException(
-                status_code=403, detail="Not authorized to view this page"
+                status_code=403, detail="Вы не авторизованы для этой страницы"
             )
         user = await user_crud.read_by_primary_key(db, user_id, join_relationships=True)
 
@@ -177,7 +151,7 @@ async def get_user_by_id(
 @user_view_route.put("/post_update_user/{user_id}", response_class=HTMLResponse)
 async def post_update_user(
     request: Request,
-    response: Response,
+    # response: Response,
     user_id: uuid.UUID,
     db: CurrentAsyncSession,
     current_user: UserModelDB = Depends(current_active_user),
@@ -188,7 +162,7 @@ async def post_update_user(
         await csrf_protect.validate_csrf(request)
         # checking the current user as super user
         if not current_user.is_superuser:
-            raise HTTPException(status_code=403, detail="Not authorized to add users")
+            raise HTTPException(status_code=403, detail="Отсутствует авторизация для добавления данных!")
 
         form = await request.form()
         # Iterate over the form fields and sanitize the values before validating against the Pydantic model
@@ -213,7 +187,7 @@ async def post_update_user(
 
         if role_id is None:
             raise HTTPException(
-                status_code=400, detail="Role is required to create a user Profile"
+                status_code=400, detail="Необходима роль для создания профиля пользователя"
             )
 
         # Fetch the user being updated
@@ -237,7 +211,7 @@ async def post_update_user(
                     {
                         "showAlert": {
                             "type": "updated",
-                            "message": f"Profile for {profile_data.first_name , profile_data.last_name} updated successfully.",
+                            "message": f"Роль для {profile_data.first_name , profile_data.last_name} обновлена!",
                             "source": "user-page",
                         },
                     }
@@ -257,7 +231,7 @@ async def post_update_user(
                 db, user_to_update.profile_id, dict(profile_data)
             )
 
-            # Update user role
+            # Редактирование профиля
             if role_id:
                 await user_crud.update(db, user_id, {"role_id": role_id})
 
@@ -269,7 +243,7 @@ async def post_update_user(
                     {
                         "showAlert": {
                             "type": "updated",
-                            "message": f"Profile for {profile_data.first_name , profile_data.last_name} updated successfully.",
+                            "message": f"Профиль {profile_data.first_name , profile_data.last_name} обновлен!",
                             "source": "user-page",
                         },
                     }

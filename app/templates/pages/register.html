@@ -1,5 +1,6 @@
-{% extends "base/auth_base.html" %} {% block title %} Register User | FastAPI
-HTMX{% endblock %} {% block content %}
+{% extends "base/auth_base.html" %} 
+{% block title %} Регистрация | FastAPI HTMX {% endblock %} 
+{% block content %}
 <div
   x-cloak
   id="register-page"
@@ -12,19 +13,14 @@ HTMX{% endblock %} {% block content %}
 >
   <div class="bg-indigo-100 shadow-lg rounded-lg p-8 max-w-md mx-auto w-96">
     <h1 class="text-2xl font-bold mb-4 text-center" style="color: #1a56db">
-      Register User
+      Регистрация пользователя
     </h1>
-    <img
-      id="login-logo"
-      src="/static/img/logo/undraw_register.png"
-      alt="Login Logo"
-      class="max-w-xs rounded-full opacity-50 shadow-md mb-4 mx-auto"
-    />
+
     <div class="mb-4">
       <label
         for="email"
         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Email address</label
+        >Email</label
       >
       <input
         type="email"
@@ -33,7 +29,7 @@ HTMX{% endblock %} {% block content %}
         x-model="username"
         @change="checkUsername()"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="john.doe@company.com"
+        placeholder="Goodchild_21@mail.ru"
         autocomplete="off"
         required
       />
@@ -45,7 +41,7 @@ HTMX{% endblock %} {% block content %}
         x-show="showUsernameError"
         x-transition.delay.100ms
       >
-        <span class="font-medium">Please enter a valid email address</span>
+        <span class="font-medium">Введите действительный email!</span>
       </p>
     </div>
     <!-- Password Div-->
@@ -57,7 +53,7 @@ HTMX{% endblock %} {% block content %}
         class="hidden block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         x-show="showPassword"
         x-transition.delay.200ms
-        >Password</label
+        >Пароль</label
       >
       <input
         type="password"
@@ -69,7 +65,7 @@ HTMX{% endblock %} {% block content %}
         x-transition.delay.200ms
         class="hidden bg-gray-50 mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         autocomplete="new-password"
-        placeholder="Enter password matching criteria"
+        placeholder="Введенный пароль соответствует требованиям"
         required
       />
       <!-- Password Regrex Pattern checked and Error displayed-->
@@ -82,7 +78,7 @@ HTMX{% endblock %} {% block content %}
         x-transition.delay.100ms
       >
         <span class="font-medium"
-          >Your password is not matching criteria. Example: Password123!</span
+          >Пароль не соответствует требованию. Пример: Password123!</span
         >
       </p>
       <!-- Repeat password Div -->
@@ -93,7 +89,7 @@ HTMX{% endblock %} {% block content %}
           x-show="showPassword"
           :class="{ 'hidden': !showPassword }"
           x-transition.delay.200ms
-          >Repeat password</label
+          >Повторите пароль</label
         >
         <input
           type="password"
@@ -114,7 +110,7 @@ HTMX{% endblock %} {% block content %}
           x-show="showRepeatPasswordError"
           x-transition.delay.100ms
         >
-          <span class="font-medium">Password is not Matching</span>
+          <span class="font-medium">Пароли не совпадают</span>
         </p>
       </div>
 
@@ -125,8 +121,8 @@ HTMX{% endblock %} {% block content %}
         x-transition.delay.200ms
         class="mt-1 text-sm text-gray-500 dark:text-gray-300 min-w-2xl"
       >
-        Your password should be at least 8 characters long and include at least
-        one numerical digit, one character, and one capital letter.
+      Ваш пароль должен быть длиной не менее 8 символов и включать как минимум одну цифру,
+      один символ и одну заглавную букву.
       </label>
     </div>
     <!-- Server Error Div -->
@@ -153,7 +149,7 @@ HTMX{% endblock %} {% block content %}
         x-bind:disabled="!username || !password || !repeatPassword || showUsernameError || showPasswordError || showRepeatPasswordError"
         @click="registerUser()"
       >
-        Register new account
+        Зарегистрироваться
       </button>
       <div class="mt-2">
         <button
@@ -165,7 +161,7 @@ HTMX{% endblock %} {% block content %}
           hx-push-url="true"
           class="text-white bg-green-500 hover:bg-green-600 focus-ring-4 focus-outline-none focus-ring-green-300 font-medium rounded-lg text-sm w-full sm-w-auto px-5 py-2.5 text-center dark-bg-green-600 dark-hover-bg-green-700 dark-focus-ring-green-800"
         >
-          Return to login
+          Войти
         </button>
       </div>
     </div>

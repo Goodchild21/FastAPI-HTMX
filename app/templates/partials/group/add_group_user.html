@@ -1,9 +1,11 @@
-{% extends "base/auth_base.html" %} {% block title %}Group Allocation | FastAPI
-HTMX {% endblock %} {% block content %}
+{% extends "base/auth_base.html" %} 
+{% block title %} Добавление в группу | FastAPI HTMX {% endblock %} 
+
+{% block content %}
 <form
   id="create-group-form"
   hx-target="this"
-  hx-post="{{ url_for('post_group_user_link' , group_id = group.id)}}"
+  hx-post="{{ url_for('post_group_user_link', group_id = group.id)}}"
   hx-swap="outerHTML"
   hx-push-url="true"
   hx-headers='{"X-CSRF-Token": "{{ csrf_token }}"}'
@@ -13,9 +15,9 @@ HTMX {% endblock %} {% block content %}
     <label
       for="users-selected"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Select users for the <b>{{group.group_name}}</b> group</label
+      >Выберете пользователей для добавдения в группу <b>"{{group.group_name}}"</b></label
     >
-
+<!-- ! -->
     <div class="overflow-y-auto h-40 border border-gray-300 rounded-lg p-2">
       {% for user in users %}
       <div
@@ -27,22 +29,29 @@ HTMX {% endblock %} {% block content %}
           type="checkbox"
           name="users_selected"
           value="{{user.id}}"
-          {%if
-          user.id
-          in
-          group_user_ids%}checked{%
-          endif
-          %}
+          {% if user.id in group_user_ids %}checked{% endif %}
           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
         />
         <label
           for="users_selected"
           class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
           >{%if user.profile.first_name %} {{user.profile.first_name}}
-          {{user.profile.last_name}} | {{user.role.role_name}} {% else %} User
-          Profile is Missing {% endif %}</label
+          {{user.profile.last_name}} | {{user.role.role_name}} {% else %} Профиль пользователя
+          отсутствует {% endif %}</label
         >
       </div>
+
+      <!--  -->
+      <!-- <div class="mb-6" style="display: flex;">
+        <select id="status" name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option value="ok">Выполнено</option> -->
+          <!-- В selected вставить переменную со значением из базы -->
+          <!-- <option selected="selected" value="in_work">В процессе</option>
+          <option value="help">Нужна обратная связь!</option>
+          <option value="wasted">Потрачено</option>
+        </select>
+      </div> -->
+      <!--  -->
       {% endfor %}
     </div>
     <!-- </select> -->
@@ -62,7 +71,7 @@ HTMX {% endblock %} {% block content %}
     type="submit"
     class="text-white mt-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
   >
-    Add
+    Добавить
   </button>
 </form>
 {% endblock %}

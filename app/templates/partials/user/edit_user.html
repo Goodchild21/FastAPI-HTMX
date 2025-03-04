@@ -1,4 +1,4 @@
-{% extends "base/auth_base.html" %} {% block title %} User Update | Admin Dashboard
+{% extends "base/auth_base.html" %} {% block title %} Изменения профиля | Admin Dashboard
 {% endblock %} {% block content %}
 
 
@@ -14,7 +14,7 @@
     <label
       for="first_name"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >First Name</label
+      >Имя</label
     >
     <input
       type="text"
@@ -30,7 +30,7 @@
     <label
       for="last_name"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Last Name</label
+      >Фамилия</label
     >
     <input
       type="text"
@@ -43,12 +43,12 @@
     />
   </div>
   <div class="mb-6">
-    <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+    <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Пол</label>
   
     <select id="gender" name="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-      <option value="male" {{ "selected" if user.profile.gender == "male" }}>Male</option>
-      <option value="female" {{ "selected" if user.profile.gender == "female" }}>Female</option>
-      <option value="other" {{ "selected" if user.profile.gender == "other" }}>Other</option>
+      <option value="male" {{ "selected" if user.profile.gender == "male" }}>Мужчина</option>
+      <option value="female" {{ "selected" if user.profile.gender == "female" }}>Женщина</option>
+      <option value="other" {{ "selected" if user.profile.gender == "other" }}>Другое</option>
     </select>
   
   </div>
@@ -56,7 +56,7 @@
     <label
       for="dob"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Date of Birth</label
+      >Дата рождения</label
     >
     <input
       type="date"
@@ -73,7 +73,7 @@
     <label
       for="address"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Address</label
+      >Адрес</label
     >
     <input
       type="text"
@@ -89,7 +89,7 @@
     <label
       for="city"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >City</label
+      >Город</label
     >
     <input
       type="text"
@@ -106,7 +106,7 @@
     <label
       for="country"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Country</label
+      >Страна</label
     >
     <input
       type="text"
@@ -121,9 +121,11 @@
 
   
   <div class="mb-6">
-    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number:</label>
+    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+      Номер телефона:</label>
     <div class="relative">
-      <input type="text" value="{{ user.profile.phone | e}}" name="phone" id="phone" aria-describedby="helper-text-explanation" class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-20 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" pattern="^(\+?1?\s*?\(?\d{3}[\)\-\s]?\d{3}[\-\s]?\d{4}|\+?\d{2}?\s?\d{4}\s?\d{6})$" placeholder="USA: (123) 456-7890 or UK: 01234 567890 or Australia: 0412 345 678" required />  
+      <input type="text" value="{{ user.profile.phone | e}}" name="phone" id="phone" aria-describedby="helper-text-explanation" class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-20 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="USA: (123) 456-7890 or UK: 01234 567890 or Australia: 0412 345 678" required />
+<!--      pattern="^(\+?1?\s*?\(?\d{3}[\)\-\s]?\d{3}[\-\s]?\d{4}|\+?\d{2}?\s?\d{4}\s?\d{6})$"-->
     </div>
   <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 dark:text-gray-400">Select a phone number that matches the format.</p>
   </div>
@@ -132,23 +134,23 @@
     <label
       for="company"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Company</label
+      >Компания</label
     >
     <input
       type="text"
       id="company"
       name="company"
       placeholder="Company"
-      value="{{ user.profile.company |e}}"
+      value="{{ user.profile.company | e}}"
       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
 
     />
   </div>
-  <h2 class="mb-4 mt-8 text-xl font-bold">Role Allocation</h2>
+  <h2 class="mb-4 mt-8 text-xl font-bold">Статус в приложении</h2>
   <div class="mb-6">
     <label for="role-selection" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role Selection</label>
     <select id="role-selection" name="role_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required>
-      <option value="">Select a role</option>
+      <option value="">Выбрать статус</option>
       {% for role in roles %}
         <option value="{{ role.id }}" {% if user.role and user.role.id == role.id %}selected{% endif %}>{{ role.role_name }}</option>
       {% endfor %}
@@ -170,16 +172,16 @@
     type="submit"
     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
   >
-    Update
+    Изменить
   </button>
   <button
     type="button"
     class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-    hx-confirm="Are you sure you want cancel the profile update?"
+    hx-confirm="Вы уверены, что хотите отменить изменения профиля?"
     @click.prevent="window.location.href = '{{ url_for('get_users') }}'"
     hx-boost="true"
   >
-    Cancel
+    Отмена
   </button>
 </form>
 {% endblock %}
